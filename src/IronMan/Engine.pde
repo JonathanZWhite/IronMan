@@ -5,7 +5,7 @@ public class Engine {
 
   PVector O = new PVector();
 
-  Node[] nodes = new Node[100];
+  Node[] nodes = new Node[1];
 
   /* Constructor */
   public Engine(int windowHeight, int windowWidth) {
@@ -14,11 +14,14 @@ public class Engine {
 
     // Fills node array
     for (int i = 0; i < nodes.length; i++) {
-      color nodeColor = color(78, 141, 234);
       float x = random(0, windowWidth);
       float y = random(windowHeight);
-      float z = random(-10000, 10000);
-      nodes[i] = new Node(nodeColor, x, y, z); // Adds new node
+//      float z = random(-10000, 10000);
+      float z = 100;
+//      PVector position = new PVector(x, y, z);
+      PVector position = new PVector(width/2, height/2, z);
+      
+      nodes[i] = new Node(position, 2, false); // Adds new node
     }
     System.out.println("A system was instantied");
   }
@@ -27,6 +30,7 @@ public class Engine {
   public void draw() {
     // Config
     background(0);
+    smooth();
     lights();
 
     for (int i = 0; i < nodes.length; i++) {
@@ -35,38 +39,81 @@ public class Engine {
   }
 
   private class Node {
-    //    PVector loc = new PVector(random(0, windowWidth), random(0, windowHeight), random(-300, -700));
-    //    PVector speed = new PVector();
-    color nodeColor;
+    boolean isChild;
     
-    float x;
-    float y;
-    float z;
+    int parentRadius = 150;
+    int childRadius = 150/10;
+    
+    color parentColor = color(78, 141, 234);
+    color childColor = color(78, 141, 234);
+    
+    float theta = 0;
+    Node[] children;
+    PVector position;
 
     /* Constructor */
-    public Node(color nodeColor, float x, float y, float z) {
-      this.nodeColor = nodeColor;
-      this.x = x;
-      this.y = y;
-      this.z = z;
+    public Node(PVector position, int childCount, boolean isChild) {
+      this.position = position;
+      this.isChild = isChild;
+      
+      if (!this.isChild) {
+        float distanceFromParent = parentRadius + 70;
+        float childX = distanceFromParent * cos(theta) + position.x;
+        float childY = distanceFromParent * sin(theta) + position.y;
+        float childZ = position.z;
+        PVector childPosition = new PVector(childX, childY, childZ);
+        
+        children = new Node[childCount];
+        for (int i = 0; i < children.length; i++) {
+          children[i] = new Node(childPosition, 0, true);
+        }        
+      }
     }
 
     /* Draw */
     public void update() {
-      pushMatrix();
-      translate(x, y, z); // x, y, z
+      // Children updates
+      if (isChild) {
+        for (int i = 0; i < children.length; i++) {
+          children[i].update();
+        }
+      } else {
       
-      rotateX( radians( frameCount ) );
-      rotateY( radians( frameCount ) );
-      rotateZ( radians( frameCount ) );
-      
-      noFill();
-      stroke(nodeColor);
-      sphere(150);
-      popMatrix();
-
+        // Parent update
+        pushMatrix();
+        translate(position.x, position.y, position.z); // x, y, z
+  
+        rotateX( radians( frameCount ) );
+        rotateY( radians( frameCount ) );
+        rotateZ( radians( frameCount ) );
+        
+        noFill();
+        stroke(parentColor);
+        sphere(parentRadius);
+        popMatrix();
+      }
       System.out.println("updating...");
     }
+    
+//    /* Creates child nodes */
+//    public void updateChildren() {
+//      // TODO: Export into recursive function which instantiates nodes
+//      // TODO: Use some sin function to create orbit
+//      // TODO: Orbit only children
+//      float distanceFromParent = parentRadius + 70;
+//      theta += .05;
+//      float childX = distanceFromParent * cos(theta) + position.x;
+//      float childY = distanceFromParent * sin(theta) + position.y;
+//      float childZ = position.z;
+//      
+//      pushMatrix();
+//      translate(childX, childY, childZ); // x, y, z
+//  
+//      noFill();
+//      stroke(childColor);
+//      sphere(childRadius);
+//      popMatrix();
+//    }
   }
 }
 
