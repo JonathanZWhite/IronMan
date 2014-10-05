@@ -6,21 +6,21 @@ public class Engine {
   int windowHeight;
   int windowWidth;
   JSONArray apiResults;
-  PMatrix3D camera;
+  Camera camera;
   
   float zoom = 1;
 
   PVector O = new PVector();
 
-//  Node[] nodes = new Node[20];
   Node[][] nodes = new Node[20][20];
 
   /* Constructor */
-  public Engine(int windowHeight, int windowWidth) {
+  public Engine(int windowHeight, int windowWidth, Camera camera) {
     this.windowHeight = windowHeight;
     this.windowWidth = windowWidth;
+    this.camera = camera;
+    
     masterRadius = windowHeight - 50;
-
     for (int i = 0; i < 20; i++) {
       for (int j = 0; j < 20; j++) {
         float cx = cos(i) * sin(j) * masterRadius/2;
@@ -59,13 +59,22 @@ public class Engine {
     }
   }
   
+  /* Starts rotating matrix */
   public void initRotate() {
     rotate = true;
   }
   
+  /* Sets zoom */
+  public void zoom(boolean zoom) {
+    if (zoom) {
+      camera.zoom = true;
+    } else {
+      camera.zoom = false;
+    }
+  }
+   
   public void keyPressedEvent() {
     println("Key pressed");
     zoom -= .05; 
   }
 }
-

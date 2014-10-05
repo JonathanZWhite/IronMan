@@ -44,6 +44,14 @@ public class Jarvis {
     // Rotate
     } else if (results.toLowerCase().contains("rotate")) {
       engine.initRotate();
+    
+    // Zoom 
+    } else if (results.toLowerCase().contains("zoom")) {
+      if (results.toLowerCase().contains("in")) {
+        engine.zoom(true);
+      } else if (results.toLowerCase().contains("out")) {
+        engine.zoom(false);
+      }
     }
   }
   

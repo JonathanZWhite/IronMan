@@ -28,8 +28,8 @@ public class ParentNode extends Node {
 
   /* Constructor */
   public ParentNode(PVector position, int childCount) {
-    super.nodeColor = color(78, 141, 234);
-    super.radius = 50;
+    nodeColor = color(78, 141, 234);
+    radius = 50;
     this.position = position;
     
     children = new Node[childCount];
@@ -56,8 +56,8 @@ public class ChildNode extends Node {
   PVector parentPosition;
 
   public ChildNode(PVector position, int parentRadius) {
-    super.nodeColor = color(78, 141, 250);
-    super.radius = parentRadius/10;
+    nodeColor = color(78, 141, 250);
+    radius = parentRadius/10;
     this.parentRadius = parentRadius;
     parentPosition = position;
   }
