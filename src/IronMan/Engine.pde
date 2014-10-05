@@ -1,4 +1,5 @@
 public class Engine {
+  boolean rotate = true;
   float theta = 0;
   int masterRadius;
   int nodeSize = 10;
@@ -20,29 +21,11 @@ public class Engine {
     this.windowWidth = windowWidth;
     masterRadius = windowHeight - 50;
 
-//    float r = masterRadius/2;
-//    float theta = acos(0/(r));
-//    float phi = atan((windowHeight/2)/(windowWidth/2));
-//    
-//
-//    for (int i = 0; i < nodes.length; i++) {
-//      
-//      float x = r*sin(theta)*cos(phi);
-//      float y = r*sin(theta)*sin(phi);
-//      float z = r*cos(theta);
-//
-//      theta += 1;
-//
-//
-//      PVector position = new PVector(x, y, z);
-//      
-//      nodes[i] = new ParentNode(position, 0); // Adds new node
-//    }
     for (int i = 0; i < 20; i++) {
       for (int j = 0; j < 20; j++) {
-        float cx = cos(i) * sin(j)*masterRadius;
-        float cy = cos(j)*masterRadius;
-        float cz = sin(i) * sin(j)*masterRadius;
+        float cx = cos(i) * sin(j) * masterRadius/2;
+        float cy = cos(j) * masterRadius /2;
+        float cz = sin(i) * sin(j) * masterRadius/2;
         PVector position = new PVector(cx, cy, cz);
         nodes[i][j] = new ParentNode(position, 0);
       }
@@ -56,28 +39,28 @@ public class Engine {
 
   /* Visualization */
   public void draw() {
-    scale(zoom);
     background(0);
     smooth();
     lights();
 
-    translate(windowWidth/2, windowHeight/2, 0);
-    noFill();
-    // stroke(155, 89, 182);
-    noStroke();
+    translate(windowWidth/2, windowHeight/2, 0); // Centers vis
+    noFill(); // Hides container
+    noStroke(); // Hides container
 
-    rotateY(radians( frameCount ));
-    rotateZ(radians( frameCount ));
     sphere(windowHeight/2);
-//
-//    for (int i = 0; i < nodes.length; i++) {
-//      nodes[i].update();
-//    }
+
     for (int i = 0; i < 20; i++) {
       for (int j = 0; j < 20; j++) {
+        if (rotate) {
+          nodes[i][j].rotate = true; 
+        }
         nodes[i][j].update();
       }
     }
+  }
+  
+  public void initRotate() {
+    rotate = true;
   }
   
   public void keyPressedEvent() {

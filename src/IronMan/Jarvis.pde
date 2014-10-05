@@ -43,7 +43,7 @@ public class Jarvis {
      
     // Rotate
     } else if (results.toLowerCase().contains("rotate")) {
-      // ROTATE
+      engine.initRotate();
     }
   }
   

@@ -41,6 +41,7 @@ void transcribe (String utterance, float confidence) {
 public void keyPressed () {
 //  jarvis.keyPressedEvent();
   engine.keyPressedEvent();
+  engine.initRotate();
 }
 public void keyReleased () {
 //  jarvis.keyReleasedEvent();

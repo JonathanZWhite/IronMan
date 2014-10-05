@@ -1,4 +1,5 @@
 abstract class Node {
+  boolean rotate = false;
   color nodeColor;
   int radius;
   PVector position;
@@ -7,15 +8,17 @@ abstract class Node {
   
   void animate() {
       pushMatrix();
-      translate(position.x, position.y, position.z); // x, y, z
-
-      rotateX( radians( frameCount ) );
-      rotateY( radians( frameCount ) );
-      rotateZ( radians( frameCount ) );
+      
+      if (rotate) {
+        rotateX(radians(frameCount/2));
+        rotateY(radians(frameCount/2));
+        rotateZ(radians(frameCount/2));
+      }
       
       noFill();
       stroke(nodeColor);
-      sphere(radius);
+      strokeWeight(10);
+      point(position.x, position.y, position.z);
       popMatrix();
   }
 }
@@ -39,7 +42,6 @@ public class ParentNode extends Node {
   public void update() {
     sphereDetail(20, 20);
     animate();
-
     
     for (int i = 0; i < children.length; i++) {
       children[i].update();
