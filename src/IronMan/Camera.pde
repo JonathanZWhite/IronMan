@@ -6,6 +6,7 @@ public class Camera {
   float fov;
   int windowHeight;
   int windowWidth;
+  int zoomFactor = 1000;
   
   /* Empty default constructor */
   public Camera(int windowHeight, int windowWidth) {
@@ -24,9 +25,12 @@ public class Camera {
   }
   
   public void zoom() {
-    fov = 340/float(windowWidth) * PI/2;
+    fov = zoomFactor/float(windowWidth) * PI/2;
     cameraZ = cameraY / tan(fov / 2.0);
     perspective(fov, aspect, cameraZ/10.0, cameraZ * 10.0);
+    if (zoomFactor > 340) { 
+      zoomFactor -= 10; 
+    }
   }
   
   public void zoomOut() {
