@@ -1,10 +1,13 @@
 public class Engine {
+  float theta = 0;
   int masterRadius;
   int nodeSize = 10;
   int windowHeight;
   int windowWidth;
   JSONArray apiResults;
   PMatrix3D camera;
+  
+  float zoom = 1;
 
   PVector O = new PVector();
 
@@ -15,18 +18,29 @@ public class Engine {
     this.windowHeight = windowHeight;
     this.windowWidth = windowWidth;
     masterRadius = windowHeight - 50;
+//    float r = sqrt(windowWidth/2 + windowHeight/2 + 0);
+    float r = masterRadius/2;
+    float theta = acos(0/(r));
+    float azimuth = atan((windowHeight/2)/(windowWidth/2));
     
 
     // Fills node array
     for (int i = 0; i < nodes.length; i++) {
       // Psuedo: width of sphere/data points
 
-      float x = random(0, windowWidth);
-      float y = random(windowHeight);
-      float z = random(-1000, 0);
-//      float x = 150 * cos(random(-1, 1)) + 720;
-//      float y = 150 * sin(random(-1, 1)) + 450;
-//      float z = random(150 * cos(random(-1, 1)), 2000);
+      float x = r*sin(theta)*cos(azimuth);
+      float y = r*sin(theta)*sin(azimuth);
+      float z = r*cos(theta);
+
+//      float x = random(0, windowWidth);
+//      float y = random(windowHeight);
+//      float z = random(-1000, 0);
+//      float x = masterRadius/2 * cos(theta);
+//      float y = masterRadius/2 * sin(theta);
+//      float z = masterRadius/2 * cos(theta);
+      theta += 1;
+
+
       PVector position = new PVector(x, y, z);
       
       nodes[i] = new ParentNode(position, 0); // Adds new node
@@ -40,6 +54,7 @@ public class Engine {
 
   /* Visualization */
   public void draw() {
+    scale(zoom);
     background(0);
     smooth();
     lights();
@@ -54,6 +69,11 @@ public class Engine {
     for (int i = 0; i < nodes.length; i++) {
       nodes[i].update();
     }
+  }
+  
+  public void keyPressedEvent() {
+    println("Key pressed");
+    zoom -= .05; 
   }
 }
 

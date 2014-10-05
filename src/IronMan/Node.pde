@@ -26,7 +26,7 @@ public class ParentNode extends Node {
   /* Constructor */
   public ParentNode(PVector position, int childCount) {
     super.nodeColor = color(78, 141, 234);
-    super.radius = 150;
+    super.radius = 50;
     this.position = position;
     
     children = new Node[childCount];

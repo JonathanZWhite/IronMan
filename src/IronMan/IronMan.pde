@@ -39,8 +39,9 @@ void transcribe (String utterance, float confidence) {
 }
 
 public void keyPressed () {
-  jarvis.keyPressedEvent();
+//  jarvis.keyPressedEvent();
+  engine.keyPressedEvent();
 }
 public void keyReleased () {
-  jarvis.keyReleasedEvent();
+//  jarvis.keyReleasedEvent();
 }
