@@ -1,5 +1,5 @@
 abstract class Node {
-  color nodeColor = color(78, 141, 234);
+  color nodeColor;
   int radius;
   PVector position;
     
@@ -25,6 +25,7 @@ public class ParentNode extends Node {
 
   /* Constructor */
   public ParentNode(PVector position, int childCount) {
+    super.nodeColor = color(78, 141, 234);
     super.radius = 150;
     this.position = position;
     
@@ -47,21 +48,25 @@ public class ParentNode extends Node {
 
 public class ChildNode extends Node {
   int parentRadius;
-  float theta = 0;
+  float theta = random(0, 360);
   PVector parentPosition;
 
   public ChildNode(PVector position, int parentRadius) {
+    super.nodeColor = color(78, 141, 250);
     super.radius = parentRadius/10;
     this.parentRadius = parentRadius;
     parentPosition = position;
   }
 
   public void update() {
+    // Generate a random theta
     theta += 0.05;
-    float distanceFromParent = parentRadius + 70;
+    float distanceFromParent = parentRadius + 0;
     float posX = distanceFromParent * cos(theta) + parentPosition.x;
     float posY = distanceFromParent * sin(theta) + parentPosition.y;
-    float posZ = parentPosition.z;
+    float posZ = distanceFromParent * cos(theta) + parentPosition.z;
+    
+    System.out.println(parentPosition);
 
     position = new PVector(posX, posY, posZ);
     animate();
