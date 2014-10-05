@@ -3,6 +3,8 @@ public class Engine {
   int nodeSize = 10;
   int windowHeight;
   int windowWidth;
+  JSONArray apiResults;
+  PMatrix3D camera;
 
   PVector O = new PVector();
 
@@ -13,27 +15,27 @@ public class Engine {
     this.windowHeight = windowHeight;
     this.windowWidth = windowWidth;
     masterRadius = windowHeight - 50;
+    
 
     // Fills node array
     for (int i = 0; i < nodes.length; i++) {
-      // TODO, cos of the larger sphere
-//      float distanceFromParent = parentRadius + 0;
-//      float posX = distanceFromParent * cos(theta) + parentPosition.x;
-//      float posY = distanceFromParent * sin(theta) + parentPosition.y;
-//      float posZ = distanceFromParent * cos(theta) + parentPosition.z;
-      
+      // Psuedo: width of sphere/data points
 
       float x = random(0, windowWidth);
       float y = random(windowHeight);
       float z = random(-1000, 0);
-//      float x = 150 * cos(0) + 400;
-//      float y = 150 * sin(0) + 450;
-//      float z = random(150 * cos(0), 2000);
+//      float x = 150 * cos(random(-1, 1)) + 720;
+//      float y = 150 * sin(random(-1, 1)) + 450;
+//      float z = random(150 * cos(random(-1, 1)), 2000);
       PVector position = new PVector(x, y, z);
       
-      nodes[i] = new ParentNode(position, 1); // Adds new node
+      nodes[i] = new ParentNode(position, 0); // Adds new node
     }
-    System.out.println("A system was instantiated");
+  }
+  
+  /* Updates data model with api results */
+  public void updateModel(JSONArray apiResults) {
+    this.apiResults = apiResults;
   }
 
   /* Visualization */
@@ -41,6 +43,13 @@ public class Engine {
     background(0);
     smooth();
     lights();
+
+    translate(windowWidth/2, windowHeight/2, 0);
+    noFill();
+    stroke(155, 89, 182);
+
+    rotateY(radians( frameCount ));
+    sphere(windowHeight/2);
 
     for (int i = 0; i < nodes.length; i++) {
       nodes[i].update();

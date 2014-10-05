@@ -1,21 +1,32 @@
-import controlP5.*;
-
-Engine engine;
+import com.getflourish.stt.*;
 
 int windowHeight;
 int windowWidth;
-JSONArray results;
+JSONArray apiResults;
+String GOOGLE_API_KEY="AIzaSyBrDtQSiaUsrdJJTktixKc364AL-DKAf4k";
+
+
+
+API api;
+Engine engine;
+Jarvis jarvis;
+STT stt;
 
 /* Bootstrap */
 void setup() {
   windowHeight = displayHeight;
   windowWidth = displayWidth;
-  
   size(windowWidth, windowHeight, P3D);
+ 
+  stt = new STT(this, GOOGLE_API_KEY);
+  stt.enableDebug();
+  stt.setLanguage("en");
   
   engine = new Engine(windowHeight, windowWidth);
+  api = new API(engine, 10);
+  api.search("Georgia"); // Default search
+  jarvis = new Jarvis(stt, api);
   
-  results = loadData();
 }
 
 /* Visualization */
@@ -23,11 +34,13 @@ void draw() {
   engine.draw();
 }
 
-JSONArray loadData() {
-  JSONArray results;
-  
-  SearchQuery search = new SearchQuery("Georgia", 200);
-  results = search.search();
-  
-  return results;
+void transcribe (String utterance, float confidence) {
+  jarvis.transcribe(utterance);
+}
+
+public void keyPressed () {
+  jarvis.keyPressedEvent();
+}
+public void keyReleased () {
+  jarvis.keyReleasedEvent();
 }

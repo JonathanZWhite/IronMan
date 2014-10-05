@@ -37,6 +37,7 @@ public class ParentNode extends Node {
 
   /* Draw */
   public void update() {
+    sphereDetail(20, 20);
     animate();
 
     
@@ -48,7 +49,8 @@ public class ParentNode extends Node {
 
 public class ChildNode extends Node {
   int parentRadius;
-  float theta = random(0, 360);
+  float theta = random(0, 1);
+  float increment = random(0, 0.05);
   PVector parentPosition;
 
   public ChildNode(PVector position, int parentRadius) {
@@ -60,7 +62,7 @@ public class ChildNode extends Node {
 
   public void update() {
     // Generate a random theta
-    theta += 0.05;
+    theta += increment;
     float distanceFromParent = parentRadius + 0;
     float posX = distanceFromParent * cos(theta) + parentPosition.x;
     float posY = distanceFromParent * sin(theta) + parentPosition.y;
@@ -69,6 +71,7 @@ public class ChildNode extends Node {
     System.out.println(parentPosition);
 
     position = new PVector(posX, posY, posZ);
+    sphereDetail(4, 4);
     animate();
   }
 
