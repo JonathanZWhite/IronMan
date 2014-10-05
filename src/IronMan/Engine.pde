@@ -21,7 +21,7 @@ public class Engine {
       // PVector position = new PVector(x, y, z);
       PVector position = new PVector(width/2, height/2, z);
       
-      nodes[i] = new Node(position, 4, false); // Adds new node
+      nodes[i] = new ParentNode(position, 4); // Adds new node
     }
     System.out.println("A system was instantiated");
   }
