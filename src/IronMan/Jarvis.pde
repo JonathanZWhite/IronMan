@@ -39,7 +39,8 @@ public class Jarvis {
     if (results.toLowerCase().contains("search")) {
       if (splitResults[2] != null) {
         controlPanel.updateQuery(splitResults[2]);
-        api.search(splitResults[2]);
+        JSONArray apiResults = api.search(splitResults[2]);
+        engine.updateModel(apiResults);
       } else {
         api.search("Dog"); // Fallback
       };

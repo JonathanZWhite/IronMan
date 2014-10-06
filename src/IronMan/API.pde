@@ -9,17 +9,15 @@ public class API {
   private String searchQuery;
   private String searchFilter;
   private int numPages;
-  Engine engine;
 
   /* Constructor */
-  public API(Engine engine, int numPages) {
-    this.engine = engine;
+  public API(int numPages) {
     this.numPages = numPages;
     searchFilter = "sourceResource.collection=";
   }
   
   /* Search */
-  public void search(String searchQuery) {
+  public JSONArray search(String searchQuery) {
     this.searchQuery = searchQuery;
     String queryURL = "";
     JSONObject dplaData;
@@ -40,7 +38,7 @@ public class API {
       sourceResource.append(result.getJSONObject("sourceResource"));
     }
     
-    engine.updateModel(sourceResource);
+    return sourceResource;
   }
 }
 

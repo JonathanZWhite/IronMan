@@ -58,7 +58,7 @@ public class ChildNode extends Node {
   PVector parentPosition;
 
   public ChildNode(PVector position) {
-    nodeColor = color(78, 209, 78);
+    nodeColor = color(78, 209, 78, 100);
     strokeWeight = 5;
     parentPosition = position;
   }

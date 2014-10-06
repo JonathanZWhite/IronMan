@@ -1,6 +1,8 @@
 public class Engine {
   boolean rotate = true;
   float theta = 0;
+  int apiSize;
+  int metaDataSize;
   int masterRadius;
   int nodeSize = 10;
   int windowHeight;
@@ -8,22 +10,26 @@ public class Engine {
   JSONArray apiResults;
   Camera camera;
   
-  Node[][] nodes = new Node[20][20];
+  Node[][] nodes;
 
   /* Constructor */
-  public Engine(int windowHeight, int windowWidth, Camera camera) {
+  public Engine(int windowHeight, int windowWidth, Camera camera, JSONArray apiResults) {
     this.windowHeight = windowHeight;
     this.windowWidth = windowWidth;
     this.camera = camera;
+    this.apiResults = apiResults;
+    apiSize = apiResults.size();
+    nodes = new Node[apiSize][apiSize];  
    
     masterRadius = windowHeight - 50;
-    for (int i = 0; i < 20; i++) {
-      for (int j = 0; j < 20; j++) {
+    for (int i = 0; i < apiSize; i++) {
+      for (int j = 0; j < apiSize; j++) {
         float cx = cos(i) * sin(j) * masterRadius/2;
         float cy = cos(j) * masterRadius /2;
         float cz = sin(i) * sin(j) * masterRadius/2;
         PVector position = new PVector(cx, cy, cz);
-        nodes[i][j] = new ParentNode(position, 5);
+        metaDataSize = apiResults.getJSONObject(i).size();
+        nodes[i][j] = new ParentNode(position, metaDataSize);
       }
     }
   }
@@ -45,8 +51,8 @@ public class Engine {
 
     sphere(windowHeight/2);
 
-    for (int i = 0; i < 20; i++) {
-      for (int j = 0; j < 20; j++) {
+    for (int i = 0; i < apiSize; i++) {
+      for (int j = 0; j < apiSize; j++) {
         if (rotate) {
           nodes[i][j].rotate = true; 
         }

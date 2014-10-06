@@ -35,9 +35,9 @@ void setup() {
   stt.enableDebug();
   stt.setLanguage("en");
   
-  engine = new Engine(windowHeight, windowWidth, camera);
-  api = new API(engine, 200);
-  api.search(defaultQuery); // Default search
+  api = new API(50);
+  apiResults = api.search(defaultQuery); // Default search
+  engine = new Engine(windowHeight, windowWidth, camera, apiResults);
   jarvis = new Jarvis(stt, api, controlPanel);
   
 }
