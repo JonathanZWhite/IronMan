@@ -1,14 +1,12 @@
 abstract class Node {
   boolean rotate = false;
   color nodeColor;
-  int radius;
+  int strokeWeight;
   PVector position;
     
   abstract void update();
-  
+    
   void animate() {
-      pushMatrix();
-      
       if (rotate) {
         rotateX(radians(frameCount/2));
         rotateY(radians(frameCount/2));
@@ -17,9 +15,8 @@ abstract class Node {
       
       noFill();
       stroke(nodeColor);
-      strokeWeight(10);
+      strokeWeight(strokeWeight);
       point(position.x, position.y, position.z);
-      popMatrix();
   }
 }
 
@@ -29,52 +26,55 @@ public class ParentNode extends Node {
   /* Constructor */
   public ParentNode(PVector position, int childCount) {
     nodeColor = color(78, 141, 234);
-    radius = 50;
+    strokeWeight = 10;
     this.position = position;
     
     children = new Node[childCount];
     for (int i = 0; i < children.length; i++) {
-      children[i] = new ChildNode(position, radius);
+      children[i] = new ChildNode(position);
     }
   }
 
   /* Draw */
   public void update() {
     sphereDetail(20, 20);
+    
+    pushMatrix();
     animate();
+    popMatrix();
     
     for (int i = 0; i < children.length; i++) {
+      if (rotate) {
+        children[i].rotate = true;
+      }
       children[i].update();
     }
   }
 }
 
 public class ChildNode extends Node {
-  int parentRadius;
-  float theta = random(0, 1);
+  float theta = random(-1, 1);
   float increment = random(0, 0.05);
   PVector parentPosition;
 
-  public ChildNode(PVector position, int parentRadius) {
-    nodeColor = color(78, 141, 250);
-    radius = parentRadius/10;
-    this.parentRadius = parentRadius;
+  public ChildNode(PVector position) {
+    nodeColor = color(78, 209, 78);
+    strokeWeight = 5;
     parentPosition = position;
   }
 
   public void update() {
-    // Generate a random theta
-    theta += increment;
-    float distanceFromParent = parentRadius + 0;
-    float posX = distanceFromParent * cos(theta) + parentPosition.x;
-    float posY = distanceFromParent * sin(theta) + parentPosition.y;
-    float posZ = distanceFromParent * cos(theta) + parentPosition.z;
+    float distanceFromParent = width * 0.03;
+    float posX = distanceFromParent * cos(theta) * sin(theta) * 1/2 + parentPosition.x;
+    float posY = distanceFromParent * cos(theta) * 1/2  + parentPosition.y;
+    float posZ = distanceFromParent * sin(theta) * sin(theta) * 1/2 + parentPosition.z;
     
-    System.out.println(parentPosition);
-
     position = new PVector(posX, posY, posZ);
-    sphereDetail(4, 4);
+    pushMatrix();
     animate();
+    strokeWeight(.5);
+    stroke(255, 255, 255);
+    line(posX, posY, posZ, parentPosition.x, parentPosition.y, parentPosition.z);    
+    popMatrix();
   }
-
 }

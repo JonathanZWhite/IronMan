@@ -6,6 +6,7 @@ public class Camera {
   float fov;
   int windowHeight;
   int windowWidth;
+  int zoomChange = 10;
   int zoomFactor = 1000;
   
   /* Empty default constructor */
@@ -24,17 +25,25 @@ public class Camera {
     }
   }
   
+  // TODO: Custom zoom values from Jarvis
   public void zoom() {
     fov = zoomFactor/float(windowWidth) * PI/2;
     cameraZ = cameraY / tan(fov / 2.0);
     perspective(fov, aspect, cameraZ/10.0, cameraZ * 10.0);
-    if (zoomFactor > 340) { 
-      zoomFactor -= 10; 
+    
+    if (zoomFactor > windowWidth * 0.2) { 
+      zoomFactor -= zoomChange; 
     }
   }
   
   public void zoomOut() {
-    perspective();
+    fov = zoomFactor/float(windowWidth) * PI/2;
+    cameraZ = cameraY / tan(fov / 2.0);    
+    perspective(fov, aspect, cameraZ/10.0, cameraZ * 10.0);
+    
+    if (zoomFactor < windowWidth * 0.9) {
+      zoomFactor += zoomChange;
+    }
   }
 }
 

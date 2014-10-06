@@ -44,9 +44,9 @@ void transcribe (String utterance, float confidence) {
 
 public void keyPressed () {
 //  jarvis.keyPressedEvent();
-  engine.keyPressedEvent();
   engine.zoom(true);
 }
 public void keyReleased () {
 //  jarvis.keyReleasedEvent();
+  engine.zoom(false);
 }

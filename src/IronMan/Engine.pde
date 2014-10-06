@@ -8,10 +8,6 @@ public class Engine {
   JSONArray apiResults;
   Camera camera;
   
-  float zoom = 1;
-
-  PVector O = new PVector();
-
   Node[][] nodes = new Node[20][20];
 
   /* Constructor */
@@ -27,7 +23,7 @@ public class Engine {
         float cy = cos(j) * masterRadius /2;
         float cz = sin(i) * sin(j) * masterRadius/2;
         PVector position = new PVector(cx, cy, cz);
-        nodes[i][j] = new ParentNode(position, 0);
+        nodes[i][j] = new ParentNode(position, 5);
       }
     }
   }
@@ -71,10 +67,5 @@ public class Engine {
     } else {
       camera.zoom = false;
     }
-  }
-   
-  public void keyPressedEvent() {
-    println("Key pressed");
-    zoom -= .05; 
   }
 }
