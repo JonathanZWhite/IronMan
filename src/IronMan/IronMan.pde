@@ -36,7 +36,7 @@ void setup() {
   stt.setLanguage("en");
   
   engine = new Engine(windowHeight, windowWidth, camera);
-  api = new API(engine, 10);
+  api = new API(engine, 200);
   api.search(defaultQuery); // Default search
   jarvis = new Jarvis(stt, api, controlPanel);
   

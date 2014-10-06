@@ -26,8 +26,6 @@ public class Engine {
         nodes[i][j] = new ParentNode(position, 5);
       }
     }
-    
-    
   }
   
   /* Updates data model with api results */

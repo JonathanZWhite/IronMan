@@ -1,4 +1,3 @@
-
 import java.io.InputStream;
 import java.io.IOException;
 
@@ -25,6 +24,7 @@ public class API {
     String queryURL = "";
     JSONObject dplaData;
     JSONArray results;
+    JSONArray sourceResource = new JSONArray();
 
     //Modify search query here. You will need to string query parameters together to get the JSON file you want.
     queryURL = "http://api.dp.la/v2/items?" + searchFilter + searchQuery + "&api_key=" + apikey + "&page_size=" + numPages;
@@ -34,7 +34,13 @@ public class API {
     dplaData = loadJSONObject(queryURL);
     results = dplaData.getJSONArray("docs");  
 
-    engine.updateModel(results);
+    for (int i = 0; i < results.size(); i++) {
+      JSONObject result = results.getJSONObject(i);
+      
+      sourceResource.append(result.getJSONObject("sourceResource"));
+    }
+    
+    engine.updateModel(sourceResource);
   }
 }
 
