@@ -29,7 +29,7 @@ public class Camera {
   public void zoom() {
     fov = zoomFactor/float(windowWidth) * PI/2;
     cameraZ = cameraY / tan(fov / 2.0);
-    perspective(fov, aspect, cameraZ/10.0, cameraZ * 10.0);
+//    perspective(fov, aspect, cameraZ/10.0, cameraZ * 10.0);
     
     if (zoomFactor > windowWidth * 0.2) { 
       zoomFactor -= zoomChange; 
@@ -39,7 +39,7 @@ public class Camera {
   public void zoomOut() {
     fov = zoomFactor/float(windowWidth) * PI/2;
     cameraZ = cameraY / tan(fov / 2.0);    
-    perspective(fov, aspect, cameraZ/10.0, cameraZ * 10.0);
+//    perspective(fov, aspect, cameraZ/10.0, cameraZ * 10.0);
     
     if (zoomFactor < windowWidth * 0.9) {
       zoomFactor += zoomChange;

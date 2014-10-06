@@ -3,13 +3,15 @@ import java.util.regex.PatternSyntaxException;
 
 public class Jarvis {
   API api;
+  ControlPanel controlPanel;
   STT stt;
   String results; 
   
   /* Constructor */
-  public Jarvis(STT stt, API api) {
+  public Jarvis(STT stt, API api, ControlPanel controlPanel) {
     this.stt = stt;
     this.api = api;
+    this.controlPanel = controlPanel;
     results = "Make a request!";
   }
   
@@ -36,6 +38,7 @@ public class Jarvis {
     // Search
     if (results.toLowerCase().contains("search")) {
       if (splitResults[2] != null) {
+        controlPanel.updateQuery(splitResults[2]);
         api.search(splitResults[2]);
       } else {
         api.search("Dog"); // Fallback

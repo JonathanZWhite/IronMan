@@ -15,7 +15,7 @@ public class Engine {
     this.windowHeight = windowHeight;
     this.windowWidth = windowWidth;
     this.camera = camera;
-    
+   
     masterRadius = windowHeight - 50;
     for (int i = 0; i < 20; i++) {
       for (int j = 0; j < 20; j++) {
@@ -26,6 +26,8 @@ public class Engine {
         nodes[i][j] = new ParentNode(position, 5);
       }
     }
+    
+    
   }
   
   /* Updates data model with api results */
