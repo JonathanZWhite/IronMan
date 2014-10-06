@@ -5,13 +5,15 @@ public class Jarvis {
   API api;
   ControlPanel controlPanel;
   STT stt;
+  Camera camera;
   String results; 
   
   /* Constructor */
-  public Jarvis(STT stt, API api, ControlPanel controlPanel) {
+  public Jarvis(STT stt, API api, ControlPanel controlPanel, Camera camera) {
     this.stt = stt;
     this.api = api;
     this.controlPanel = controlPanel;
+    this.camera = camera;
     results = "Make a request!";
   }
   
@@ -52,9 +54,9 @@ public class Jarvis {
     // Zoom 
     } else if (results.toLowerCase().contains("zoom")) {
       if (results.toLowerCase().contains("in")) {
-        engine.zoom(true);
+        camera.zoom();
       } else if (results.toLowerCase().contains("out")) {
-        engine.zoom(false);
+        camera.zoomOut();
       }
     }
   }

@@ -3,6 +3,7 @@ import java.util.Arrays;
 public class Engine {
   boolean rotate = true;
   boolean clear = false;
+  color jarvisBall;
   float theta = 0;
   int apiSize;
   int metaDataSize;
@@ -21,10 +22,12 @@ public class Engine {
     this.windowWidth = windowWidth;
     this.camera = camera;
     this.apiResults = apiResults;
+    jarvisBall = color(234, 211, 186);
     
     initNodes();
   }
   
+  /* Initializes node based on data */
   public void initNodes() {
     apiSize = apiResults.size();
     nodes = new Node[apiSize][apiSize];  
@@ -42,14 +45,9 @@ public class Engine {
     }
   }
   
-  public void clearNodes() {
-    println("All nodes removed!");
-  }
-  
   /* Updates data model with api results */
   public void updateModel(JSONArray apiResults) {
     this.apiResults = apiResults;
-    clearNodes();
     initNodes();
   }
 
@@ -60,10 +58,12 @@ public class Engine {
     lights();
 
     translate(windowWidth/2, windowHeight/2, 0); // Centers vis
-    noFill(); // Hides container
-    noStroke(); // Hides container
-
-    sphere(windowHeight/2);
+    noFill();
+    pushMatrix();
+    stroke(jarvisBall);
+    rotateY(radians(frameCount));
+    sphere(windowHeight/15);
+    popMatrix();
 
     // Allows for resetting
     if (nodes[0][0] != null) {
@@ -78,17 +78,12 @@ public class Engine {
     }
   }
   
+  public void updateColor(color jarvisBall) {
+    this.jarvisBall = jarvisBall;
+  }
+  
   /* Starts rotating matrix */
   public void initRotate() {
     rotate = true;
-  }
-  
-  /* Sets zoom */
-  public void zoom(boolean zoom) {
-    if (zoom) {
-      camera.zoom = true;
-    } else {
-      camera.zoom = false;
-    }
   }
 }

@@ -4,6 +4,7 @@ public class ControlPanel {
   ControlP5 cp5;
   JSONArray apiResults;
   String locations;
+  int numberOfCollections = 1;
   
   public ControlPanel(ControlP5 cp5, String query, API api, JSONArray apiResults) {
     this.cp5 = cp5;
@@ -51,10 +52,13 @@ public class ControlPanel {
     
     textSize(16);
     fill(white);
-    text("Number of API results: " +  apiResults.size(), leftElementX, 330);
-    text("Current search: " + query, leftElementX, 355);
-    String text = "Location of results: " + locations;
-    text(text, leftElementX, 365, leftElementXWidth, 150);
+    text("Current search: " + query, leftElementX, 330);
+    text("Number of API results: " +  apiResults.size(), leftElementX, 355);
+    text("Number of collections added: " +  numberOfCollections, leftElementX, 380);
+    text("Number of parent nodes: " +  apiResults.size() * 5, leftElementX, 405);
+    text("Number of child nodes: " +  apiResults.size() * 5 * 10, leftElementX, 430);
+    String locationText = "Unique location of results: " + locations;
+    text(locationText, leftElementX, 440, leftElementXWidth, 150);
         
     /* Right HUD */
     textAlign(RIGHT);
@@ -62,10 +66,16 @@ public class ControlPanel {
     textSize(18);
     fill(red);
     text("Sir, incoming transmission", rightElementX, 60);
+    
+    textSize(16);
+    fill(white);
+    String transmissionText = "This is a visual representation of the JSON response from the Digital Public Library in a spherical coordinate system. Each parent node represents a single resource from the one of the added collections and each parent node has as many child nodes as the amount of metadata that resource holds.";
+    text(transmissionText, rightElementX, 90, -rightElementXWidth, 300);
   }
   
   public void updateQuery(String query) {
     this.query = query;
-    locations += api.getLocations();
+    locations = api.getLocations();
+    numberOfCollections++;
   }
 }

@@ -26,26 +26,25 @@ void setup() {
   cp5 = new ControlP5(this);
   cp5.setAutoDraw(false);
   
-  camera = new Camera(windowHeight, windowWidth);
   cam = new PeasyCam(this, 100);
-  cam.lookAt(windowHeight/2, windowWidth/2, 100, 1000, 0);
- 
+  cam.lookAt(windowWidth/2, windowHeight/2, 100, 1000, 0);
+  camera = new Camera(cam);
+  
   stt = new STT(this, GOOGLE_API_KEY);
   stt.enableDebug();
   stt.setLanguage("en");
   
-  api = new API(5); // Amount computer can handle processing graphically
+  api = new API(12); // Amount computer can handle processing graphically
   apiResults = api.search(defaultQuery); // Default search
   engine = new Engine(windowHeight, windowWidth, camera, apiResults);
   controlPanel = new ControlPanel(cp5, defaultQuery, api, apiResults);
-  jarvis = new Jarvis(stt, api, controlPanel);
+  jarvis = new Jarvis(stt, api, controlPanel, camera);
   
 }
 
 /* Visualization */
 void draw() {
   engine.draw();
-  camera.draw();
   cam.beginHUD();
   controlPanel.init();
   cp5.draw();
@@ -57,13 +56,15 @@ void transcribe (String utterance, float confidence) {
 }
 
 public void keyPressed () {
-//  jarvis.keyPressedEvent();
+  jarvis.keyPressedEvent();
 //  engine.zoom(true);
-  controlPanel.updateQuery("sheep");
-  JSONArray apiResults = api.search("America");
-  engine.updateModel(apiResults);
+//  controlPanel.updateQuery("sheep");
+//  JSONArray apiResults = api.search("America");
+//  engine.updateModel(apiResults);
+  engine.updateColor(color(229, 77, 80));
 }
 public void keyReleased () {
-//  jarvis.keyReleasedEvent();
+  jarvis.keyReleasedEvent();
 //  engine.zoom(false);
+  engine.updateColor(color(234, 211, 186));
 }

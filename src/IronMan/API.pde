@@ -2,7 +2,7 @@ public class API {
 
   //Please put in your own api_key here. This page explains how you get one: http://dp.la/info/developers/codex/policies/#get-a-key
   private String apikey = "18f315831ca298197d88df3e858abab6";
-
+  private String locations = "";
   private String searchQuery;
   private String searchFilter;
   private int numPages;
@@ -50,7 +50,7 @@ public class API {
 //    return titles.toString().replaceAll(",", ",").replaceAll("[\\[.\\].\\s+]", "");
 //  }
   public String getLocations() {
-    String locations = "";
+    locations = "";
     int size = sourceResource.size();
     for (int i = 0; i < size; i++) {
         try {
