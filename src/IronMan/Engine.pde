@@ -1,5 +1,8 @@
+import java.util.Arrays; 
+
 public class Engine {
   boolean rotate = true;
+  boolean clear = false;
   float theta = 0;
   int apiSize;
   int metaDataSize;
@@ -18,6 +21,11 @@ public class Engine {
     this.windowWidth = windowWidth;
     this.camera = camera;
     this.apiResults = apiResults;
+    
+    initNodes();
+  }
+  
+  public void initNodes() {
     apiSize = apiResults.size();
     nodes = new Node[apiSize][apiSize];  
    
@@ -34,9 +42,15 @@ public class Engine {
     }
   }
   
+  public void clearNodes() {
+    println("All nodes removed!");
+  }
+  
   /* Updates data model with api results */
   public void updateModel(JSONArray apiResults) {
     this.apiResults = apiResults;
+    clearNodes();
+    initNodes();
   }
 
   /* Visualization */
@@ -51,12 +65,15 @@ public class Engine {
 
     sphere(windowHeight/2);
 
-    for (int i = 0; i < apiSize; i++) {
-      for (int j = 0; j < apiSize; j++) {
-        if (rotate) {
-          nodes[i][j].rotate = true; 
+    // Allows for resetting
+    if (nodes[0][0] != null) {
+      for (int i = 0; i < apiSize; i++) {
+        for (int j = 0; j < apiSize; j++) {
+          if (rotate) {
+            nodes[i][j].rotate = true; 
+          }
+          nodes[i][j].update();
         }
-        nodes[i][j].update();
       }
     }
   }

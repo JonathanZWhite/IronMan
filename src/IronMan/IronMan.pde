@@ -25,7 +25,6 @@ void setup() {
   
   cp5 = new ControlP5(this);
   cp5.setAutoDraw(false);
-  controlPanel = new ControlPanel(cp5, defaultQuery);
   
   camera = new Camera(windowHeight, windowWidth);
   cam = new PeasyCam(this, 100);
@@ -35,9 +34,10 @@ void setup() {
   stt.enableDebug();
   stt.setLanguage("en");
   
-  api = new API(50);
+  api = new API(5); // Amount computer can handle processing graphically
   apiResults = api.search(defaultQuery); // Default search
   engine = new Engine(windowHeight, windowWidth, camera, apiResults);
+  controlPanel = new ControlPanel(cp5, defaultQuery, api, apiResults);
   jarvis = new Jarvis(stt, api, controlPanel);
   
 }
@@ -58,9 +58,12 @@ void transcribe (String utterance, float confidence) {
 
 public void keyPressed () {
 //  jarvis.keyPressedEvent();
-  engine.zoom(true);
+//  engine.zoom(true);
+  controlPanel.updateQuery("sheep");
+  JSONArray apiResults = api.search("America");
+  engine.updateModel(apiResults);
 }
 public void keyReleased () {
 //  jarvis.keyReleasedEvent();
-  engine.zoom(false);
+//  engine.zoom(false);
 }
